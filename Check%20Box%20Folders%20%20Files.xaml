@@ -1,0 +1,494 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Check_Box_Folders__Files" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="out_USMonthly_BoxLoc_Exists" Type="OutArgument(x:Boolean)" />
+    <x:Property Name="out_EPOMonthly_BoxLoc_Exists" Type="OutArgument(x:Boolean)" />
+    <x:Property Name="out_MasterFiles_BoxLoc_Exists" Type="OutArgument(x:Boolean)" />
+    <x:Property Name="out_USMonthly_BoxLoc_Path" Type="OutArgument(x:String)" />
+    <x:Property Name="out_EPOMonthly_BoxLoc_Path" Type="OutArgument(x:String)" />
+    <x:Property Name="out_MasterFilesPath" Type="OutArgument(x:String)" />
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="In_LogNotifications" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="out_USMonthly_LocalPath" Type="OutArgument(x:String)" />
+    <x:Property Name="out_EPOMonthly_LocalPath" Type="OutArgument(x:String)" />
+    <x:Property Name="out_USMasterFile_LocalPath" Type="OutArgument(x:String)" />
+    <x:Property Name="out_EPOMasterFile_LocalPath" Type="OutArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1416,4385.33333333333</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>Check_Box_Folders__Files_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Data.Entity</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Check_Box_Folders__Files" sap:VirtualizedContainerService.HintSize="1396,4325.33333333333" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="str_TempFolderPath" />
+      <Variable x:TypeArguments="x:Boolean" Name="bln_USMonthly_File_Exists" />
+      <Variable x:TypeArguments="x:Boolean" Name="bln_EPOMonthly_File_Exists" />
+      <Variable x:TypeArguments="x:Boolean" Name="bln_MasterFile_US_Exists" />
+      <Variable x:TypeArguments="x:Boolean" Name="bln_MasterFile_EPO_Exists" />
+      <Variable x:TypeArguments="x:String" Name="str_ColumnConfigFolderPath" />
+      <Variable x:TypeArguments="x:Int32" Name="int_Year" />
+      <Variable x:TypeArguments="x:String" Name="str_USMonthly_BoxPath" />
+      <Variable x:TypeArguments="x:String" Name="str_EPOMonthly_BoxPath" />
+      <Variable x:TypeArguments="x:Int32" Name="int_Month" />
+      <Variable x:TypeArguments="x:String" Name="str_Month" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:Delete ContinueOnError="{x:Null}" DisplayName="Delete - Temp" sap:VirtualizedContainerService.HintSize="1354,22" sap2010:WorkflowViewState.IdRef="Delete_1" Path="[Path.Combine(Environment.CurrentDirectory,&quot;Data&quot;,&quot;Temp&quot;)]" />
+    <ui:CreateDirectory ContinueOnError="False" DisplayName="Create Folder - Temp Folder" sap:VirtualizedContainerService.HintSize="1354,85.3333333333333" sap2010:WorkflowViewState.IdRef="CreateDirectory_1" Path="[Path.Combine(Environment.CurrentDirectory,&quot;Data&quot;,&quot;Temp&quot;)]" />
+    <Assign DisplayName="Temp Folder Path" sap:VirtualizedContainerService.HintSize="1354,62" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[str_TempFolderPath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[Path.Combine(Environment.CurrentDirectory,"Data","Temp")]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Logfile workflow LOG-FC5" sap:VirtualizedContainerService.HintSize="1354,86.6666666666667" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Log\Logfile.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="argIstrLogNumber">LOG-FC5</InArgument>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="argIdicConfig">[In_Config]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="argIstrKeyValues" />
+        <InArgument x:TypeArguments="x:String" x:Key="argIstrErrorScreenshot" />
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="argIdtLogNotification">[In_LogNotifications]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="arglstrTechincalExceptionMessage" />
+        <OutArgument x:TypeArguments="x:String" x:Key="argOException" />
+        <InArgument x:TypeArguments="x:Int32" x:Key="argIstrTransactionID" />
+        <InArgument x:TypeArguments="x:String" x:Key="argInDBConnectionString">[In_Config("DB_ConnectionString").ToString]</InArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <If Condition="[In_Config(&quot;Run_Environment&quot;).ToString.ToLower=&quot;prod&quot;]" DisplayName="Check Run Environment 1" sap:VirtualizedContainerService.HintSize="1354,962" sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Then>
+        <Sequence DisplayName="Production" sap:VirtualizedContainerService.HintSize="654,808" sap2010:WorkflowViewState.IdRef="Sequence_3">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign DisplayName="Column config - prd" sap:VirtualizedContainerService.HintSize="612,62" sap2010:WorkflowViewState.IdRef="Assign_12">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[str_ColumnConfigFolderPath]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[in_Config("ColumnConfigFile_BoxLoc_PRD").ToString.Replace("&lt;username&gt;",Environment.UserName)]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Sequence DisplayName="FilePath and Names" sap:VirtualizedContainerService.HintSize="612,614" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If Condition="[now.ToString(&quot;MMMMMMMMMM&quot;).ToLower=&quot;january&quot;]" DisplayName="Check month Prod" sap:VirtualizedContainerService.HintSize="570,216" sap2010:WorkflowViewState.IdRef="If_11">
+              <If.Then>
+                <Assign DisplayName="Year 1" sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_14">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Int32">[int_Year]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Int32">[now.year-1]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </If.Then>
+              <If.Else>
+                <Assign DisplayName="Year 2" sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_15">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Int32">[int_Year]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Int32">[now.Year]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </If.Else>
+            </If>
+            <Assign DisplayName="US Monthly Folder Path" sap:VirtualizedContainerService.HintSize="570,62" sap2010:WorkflowViewState.IdRef="Assign_2">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[out_USMonthly_BoxLoc_Path]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[In_Config("US_MonthlyFile_BoxLocation_Path_PRD").ToString.Replace("&lt;username&gt;",Environment.UserName).Replace("&lt;Year&gt;",int_Year.ToString)]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign DisplayName="EPO Monthly Folder Path" sap:VirtualizedContainerService.HintSize="570,62" sap2010:WorkflowViewState.IdRef="Assign_3">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[out_EPOMonthly_BoxLoc_Path]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[In_Config("EPO_MonthlyFile_BoxLocation_PRD").ToString.Replace("&lt;username&gt;",Environment.UserName).Replace("&lt;Year&gt;",int_Year.ToString)]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign DisplayName="Masterfiles" sap:VirtualizedContainerService.HintSize="570,62" sap2010:WorkflowViewState.IdRef="Assign_4">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[out_MasterFilesPath]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[In_Config("MasterFile_BoxLocation_PRD").ToString.Replace("&lt;username&gt;",Environment.UserName)]</InArgument>
+              </Assign.Value>
+            </Assign>
+          </Sequence>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="DEV/QA" sap:VirtualizedContainerService.HintSize="654,808" sap2010:WorkflowViewState.IdRef="Sequence_5">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign DisplayName="Column config - QA" sap:VirtualizedContainerService.HintSize="612,62" sap2010:WorkflowViewState.IdRef="Assign_13">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[str_ColumnConfigFolderPath]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[in_Config("ColumnConfigFile_BoxLoc_QA").ToString.Replace("&lt;username&gt;",Environment.UserName)]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Sequence DisplayName="FilePath and Names" sap:VirtualizedContainerService.HintSize="612,614" sap2010:WorkflowViewState.IdRef="Sequence_4">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If Condition="[now.ToString(&quot;MMMMMMMMMM&quot;).ToLower=&quot;january&quot;]" DisplayName="Check month Dev" sap:VirtualizedContainerService.HintSize="570,216" sap2010:WorkflowViewState.IdRef="If_12">
+              <If.Then>
+                <Assign DisplayName="Year 3" sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_16">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Int32">[int_Year]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Int32">[now.year-1]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </If.Then>
+              <If.Else>
+                <Assign DisplayName="Year 4" sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_17">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Int32">[int_Year]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Int32">[now.Year]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </If.Else>
+            </If>
+            <Assign DisplayName="US Monthly Folder Path" sap:VirtualizedContainerService.HintSize="570,62" sap2010:WorkflowViewState.IdRef="Assign_5">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[out_USMonthly_BoxLoc_Path]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[In_Config("US_MonthlyFile_BoxLocation_Path_QA").ToString.Replace("&lt;username&gt;",Environment.UserName).Replace("&lt;Year&gt;",int_Year.ToString)]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign DisplayName="EPO Monthly Folder Path" sap:VirtualizedContainerService.HintSize="570,62" sap2010:WorkflowViewState.IdRef="Assign_6">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[out_EPOMonthly_BoxLoc_Path]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[In_Config("EPO_MonthlyFile_BoxLocation_QA").ToString.Replace("&lt;username&gt;",Environment.UserName).Replace("&lt;Year&gt;",int_Year.ToString)]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign DisplayName="Masterfiles" sap:VirtualizedContainerService.HintSize="570,62" sap2010:WorkflowViewState.IdRef="Assign_7">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[out_MasterFilesPath]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[In_Config("MasterFile_BoxLocation_QA").ToString.Replace("&lt;username&gt;",Environment.UserName)]</InArgument>
+              </Assign.Value>
+            </Assign>
+          </Sequence>
+        </Sequence>
+      </If.Else>
+    </If>
+    <ui:CopyFile ContinueOnError="{x:Null}" Destination="[Path.Combine(Environment.CurrentDirectory,&quot;Data&quot;,&quot;Temp&quot;,in_Config(&quot;ColumnConfigFile&quot;).ToString+&quot;.xlsx&quot;)]" DisplayName="Copy File - Column Config" sap:VirtualizedContainerService.HintSize="1354,162" sap2010:WorkflowViewState.IdRef="CopyFile_6" Overwrite="True" Path="[Path.combine(str_ColumnConfigFolderPath,in_Config(&quot;ColumnConfigFile&quot;).ToString+&quot;.xlsx&quot;)]" />
+    <If Condition="[now.ToString(&quot;MMMMMMMMMMMMMMMMM&quot;).ToLower=&quot;january&quot;]" DisplayName="Check month for filenames" sap:VirtualizedContainerService.HintSize="1354,410" sap2010:WorkflowViewState.IdRef="If_13">
+      <If.Then>
+        <Sequence DisplayName="1" sap:VirtualizedContainerService.HintSize="304,256" sap2010:WorkflowViewState.IdRef="Sequence_15">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign DisplayName="Month 1" sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_18">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[int_Month]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">12</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="MonthName1" sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_19">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[str_Month]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">December</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="1" sap:VirtualizedContainerService.HintSize="304,256" sap2010:WorkflowViewState.IdRef="Sequence_16">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign DisplayName="Month 2" sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_20">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[int_Month]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">[now.Month-1]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="MonthName2" sap:VirtualizedContainerService.HintSize="262,62" sap2010:WorkflowViewState.IdRef="Assign_21">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[str_Month]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[MonthName(int_Month)]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </If.Else>
+    </If>
+    <Sequence DisplayName="Copy Files to Temp Folder" sap:VirtualizedContainerService.HintSize="1354,2163.33333333333" sap2010:WorkflowViewState.IdRef="Sequence_10">
+      <Sequence.Variables>
+        <Variable x:TypeArguments="x:String" Name="variable1" />
+      </Sequence.Variables>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <ui:PathExists DisplayName="Path Exists - US Monthly" Exists="[out_USMonthly_BoxLoc_Exists]" sap:VirtualizedContainerService.HintSize="918,90.6666666666667" sap2010:WorkflowViewState.IdRef="PathExists_8" Path="[out_USMonthly_BoxLoc_Path]" PathType="Folder" />
+      <If Condition="[out_USMonthly_BoxLoc_Exists]" DisplayName="US monthly file exists" sap:VirtualizedContainerService.HintSize="918,223.333333333333" sap2010:WorkflowViewState.IdRef="If_5">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <If.Then>
+          <Sequence DisplayName="US Monthly Folder - True" sap:VirtualizedContainerService.HintSize="200,69.3333333333333" sap2010:WorkflowViewState.IdRef="Sequence_7">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:PathExists DisplayName="Path Exists - US Monthly File" Exists="[bln_USMonthly_File_Exists]" sap:VirtualizedContainerService.HintSize="572,90.6666666666667" sap2010:WorkflowViewState.IdRef="PathExists_9" Path="[Path.Combine(out_USMonthly_BoxLoc_Path,in_config(&quot;US_MonthlyFile_FileName&quot;).tostring.Replace(&quot;&lt;MM&gt;&quot;,int_Month.ToString).Replace(&quot;&lt;YYYY&gt;&quot;,int_Year.ToString)+&quot;.xlsx&quot;)]" PathType="File" />
+            <If Condition="[bln_USMonthly_File_Exists]" DisplayName="US Monthly File Exists" sap:VirtualizedContainerService.HintSize="572,510" sap2010:WorkflowViewState.IdRef="If_4">
+              <If.Then>
+                <Sequence DisplayName="US Monthly File" sap:VirtualizedContainerService.HintSize="426,356" sap2010:WorkflowViewState.IdRef="Sequence_11">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Assign DisplayName="US Monthly File" sap:VirtualizedContainerService.HintSize="384,62" sap2010:WorkflowViewState.IdRef="Assign_8">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[out_USMonthly_LocalPath]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[Path.Combine(str_TempFolderPath,in_config("US_MonthlyFile_FileName").tostring.Replace("&lt;MM&gt;",int_Month.ToString).Replace("&lt;YYYY&gt;",int_Year.ToString)+".xlsx")]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <ui:CopyFile ContinueOnError="{x:Null}" Destination="[out_USMonthly_LocalPath]" DisplayName="Copy File - US Monthly File to Temp" sap:VirtualizedContainerService.HintSize="384,162" sap2010:WorkflowViewState.IdRef="CopyFile_2" Overwrite="True" Path="[Path.Combine(out_USMonthly_BoxLoc_Path,in_config(&quot;US_MonthlyFile_FileName&quot;).tostring.Replace(&quot;&lt;MM&gt;&quot;,int_Month.ToString).Replace(&quot;&lt;YYYY&gt;&quot;,int_Year.ToString)+&quot;.xlsx&quot;)]" />
+                </Sequence>
+              </If.Then>
+            </If>
+          </Sequence>
+        </If.Then>
+      </If>
+      <ui:PathExists DisplayName="Path Exists - EPO Monthly" Exists="[out_EPOMonthly_BoxLoc_Exists]" sap:VirtualizedContainerService.HintSize="918,90.6666666666667" sap2010:WorkflowViewState.IdRef="PathExists_10" Path="[out_EPOMonthly_BoxLoc_Path]" PathType="Folder" />
+      <If Condition="[out_EPOMonthly_BoxLoc_Exists]" DisplayName="EPO monthly file exists" sap:VirtualizedContainerService.HintSize="918,223.333333333333" sap2010:WorkflowViewState.IdRef="If_7">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <If.Then>
+          <Sequence DisplayName="EPO Monthly Folder  - True" sap:VirtualizedContainerService.HintSize="200,69.3333333333333" sap2010:WorkflowViewState.IdRef="Sequence_8">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:PathExists DisplayName="Path Exists - EPO Monthly File" Exists="[bln_EPOMonthly_File_Exists]" sap:VirtualizedContainerService.HintSize="572,90.6666666666667" sap2010:WorkflowViewState.IdRef="PathExists_11" Path="[Path.Combine(out_EPOMonthly_BoxLoc_Path,in_config(&quot;EPO_MonthlyFile_FileName&quot;).tostring.Replace(&quot;&lt;MMMM&gt;&quot;,str_Month).Replace(&quot;&lt;MM&gt;&quot;,int_Month.ToString).Replace(&quot;&lt;YYYY&gt;&quot;,int_Year.ToString)+&quot;.xls&quot;)]" PathType="File" />
+            <If Condition="[bln_EPOMonthly_File_Exists]" DisplayName="EPO Monthly File Exists" sap:VirtualizedContainerService.HintSize="572,510" sap2010:WorkflowViewState.IdRef="If_6">
+              <If.Then>
+                <Sequence DisplayName="EPO Monthly File" sap:VirtualizedContainerService.HintSize="426,356" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Assign DisplayName="EPO Monthly File" sap:VirtualizedContainerService.HintSize="384,62" sap2010:WorkflowViewState.IdRef="Assign_9">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[out_EPOMonthly_LocalPath]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[Path.Combine(str_TempFolderPath,in_config("EPO_MonthlyFile_FileName").tostring.Replace("&lt;MMMM&gt;",str_Month).Replace("&lt;MM&gt;",int_Month.ToString).Replace("&lt;YYYY&gt;",int_Year.ToString)+".xls")]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <ui:CopyFile ContinueOnError="{x:Null}" Destination="[out_EPOMonthly_LocalPath]" DisplayName="Copy File - EPO Monthly File to Temp" sap:VirtualizedContainerService.HintSize="384,162" sap2010:WorkflowViewState.IdRef="CopyFile_3" Overwrite="True" Path="[Path.Combine(out_EPOMonthly_BoxLoc_Path,in_config(&quot;EPO_MonthlyFile_FileName&quot;).tostring.Replace(&quot;&lt;MMMM&gt;&quot;,str_Month).Replace(&quot;&lt;MM&gt;&quot;,int_Month.ToString).Replace(&quot;&lt;YYYY&gt;&quot;,int_Year.ToString)+&quot;.xls&quot;)]" />
+                </Sequence>
+              </If.Then>
+            </If>
+          </Sequence>
+        </If.Then>
+      </If>
+      <If Condition="[bln_EPOMonthly_File_Exists=False AND bln_USMonthly_File_Exists=False]" DisplayName="Check if Monthly files available" sap:VirtualizedContainerService.HintSize="918,214" sap2010:WorkflowViewState.IdRef="If_14">
+        <If.Then>
+          <Throw DisplayName="Throw - no monthly files" Exception="[new Exception(&quot;US Monthly Expense File and EPO Monthly expense files are missing in the box location.&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_1" />
+        </If.Then>
+      </If>
+      <ui:PathExists DisplayName="Path Exists - Compiled Files" Exists="[out_MasterFiles_BoxLoc_Exists]" sap:VirtualizedContainerService.HintSize="918,90.6666666666667" sap2010:WorkflowViewState.IdRef="PathExists_12" Path="[out_MasterFilesPath]" PathType="Folder" />
+      <If Condition="[out_MasterFiles_BoxLoc_Exists]" DisplayName="Compiled File Path Exists" sap:VirtualizedContainerService.HintSize="918,898.666666666667" sap2010:WorkflowViewState.IdRef="If_10">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <If.Then>
+          <If Condition="[now.ToString(&quot;MMMMMMMMMMMMMMMMM&quot;).ToLower=&quot;february&quot;]" DisplayName="Check if new compilation" sap:VirtualizedContainerService.HintSize="672,744.666666666667" sap2010:WorkflowViewState.IdRef="If_15">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If.Then>
+              <Sequence DisplayName="Copy templates of compiled files" sap:VirtualizedContainerService.HintSize="426,590.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="384,94.6666666666667" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Copy Master File Templates&quot;]" />
+                <ui:CopyFile ContinueOnError="{x:Null}" Destination="[Path.Combine(Environment.CurrentDirectory,&quot;Data&quot;,&quot;Temp&quot;,in_config(&quot;US_MasterFileName&quot;).tostring.Replace(&quot;&lt;YYYY&gt;&quot;,int_Year.tostring)+&quot;.xlsx&quot;)]" DisplayName="Copy File - US Master" sap:VirtualizedContainerService.HintSize="384,162" sap2010:WorkflowViewState.IdRef="CopyFile_7" Overwrite="False" Path="[Path.Combine(in_Config(&quot;MasterFile_TemplateLoc&quot;).ToString.Replace(&quot;&lt;username&gt;&quot;,Environment.UserName),in_config(&quot;US_MasterFileName&quot;).tostring.Replace(&quot;&lt;YYYY&gt;&quot;,int_Year.tostring)+&quot;.xlsx&quot;)]" />
+                <ui:CopyFile ContinueOnError="{x:Null}" Destination="[Path.Combine(Environment.CurrentDirectory,&quot;Data&quot;,&quot;Temp&quot;,in_config(&quot;EPO_MasterFileName&quot;).tostring.Replace(&quot;&lt;YYYY&gt;&quot;,int_Year.tostring)+&quot;.xlsx&quot;)]" DisplayName="Copy File - EPO Master" sap:VirtualizedContainerService.HintSize="384,162" sap2010:WorkflowViewState.IdRef="CopyFile_8" Overwrite="False" Path="[Path.Combine(in_Config(&quot;MasterFile_TemplateLoc&quot;).ToString.Replace(&quot;&lt;username&gt;&quot;,Environment.UserName),in_config(&quot;EPO_MasterFileName&quot;).tostring.Replace(&quot;&lt;YYYY&gt;&quot;,int_Year.tostring)+&quot;.xlsx&quot;)]" />
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <Sequence DisplayName="Check for Master Files" sap:VirtualizedContainerService.HintSize="200,69.3333333333333" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:PathExists DisplayName="Path Exists - US Compiled File" Exists="[bln_MasterFile_US_Exists]" sap:VirtualizedContainerService.HintSize="572,90.6666666666667" sap2010:WorkflowViewState.IdRef="PathExists_13" Path="[Path.Combine(out_MasterFilesPath,in_Config(&quot;US_MasterFileName&quot;).tostring.Replace(&quot;&lt;YYYY&gt;&quot;,int_Year.ToString)+&quot;.xlsx&quot;)]" PathType="File" />
+                <If Condition="[bln_MasterFile_US_Exists]" DisplayName="US Compiled file exists?" sap:VirtualizedContainerService.HintSize="572,510" sap2010:WorkflowViewState.IdRef="If_8">
+                  <If.Then>
+                    <Sequence DisplayName="US Compiled File " sap:VirtualizedContainerService.HintSize="426,356" sap2010:WorkflowViewState.IdRef="Sequence_13">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign DisplayName="US Compiled File" sap:VirtualizedContainerService.HintSize="384,62" sap2010:WorkflowViewState.IdRef="Assign_10">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:String">[out_USMasterFile_LocalPath]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:String">[Path.Combine(str_TempfolderPath,in_Config("US_MasterFileName").tostring.Replace("&lt;YYYY&gt;",int_Year.ToString)+".xlsx")]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                      <ui:CopyFile ContinueOnError="{x:Null}" Destination="[out_USMasterFile_LocalPath]" DisplayName="Copy File - US Compiled" sap:VirtualizedContainerService.HintSize="384,162" sap2010:WorkflowViewState.IdRef="CopyFile_4" Overwrite="False" Path="[Path.Combine(out_MasterFilesPath,in_Config(&quot;US_MasterFileName&quot;).tostring.Replace(&quot;&lt;YYYY&gt;&quot;,int_Year.ToString)+&quot;.xlsx&quot;)]" />
+                    </Sequence>
+                  </If.Then>
+                </If>
+                <ui:PathExists DisplayName="Path Exists - EPO Compiled File" Exists="[bln_MasterFile_EPO_Exists]" sap:VirtualizedContainerService.HintSize="572,90.6666666666667" sap2010:WorkflowViewState.IdRef="PathExists_14" Path="[Path.Combine(out_MasterFilesPath,in_Config(&quot;EPO_MasterFileName&quot;).tostring.Replace(&quot;&lt;YYYY&gt;&quot;,int_Year.ToString)+&quot;.xlsx&quot;)]" PathType="File" />
+                <If Condition="[bln_MasterFile_EPO_Exists]" DisplayName="EPO Compiled file exists?" sap:VirtualizedContainerService.HintSize="572,510" sap2010:WorkflowViewState.IdRef="If_9">
+                  <If.Then>
+                    <Sequence DisplayName="Compiled file - EPO" sap:VirtualizedContainerService.HintSize="426,356" sap2010:WorkflowViewState.IdRef="Sequence_14">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <Assign DisplayName="EPO Compiled File" sap:VirtualizedContainerService.HintSize="384,62" sap2010:WorkflowViewState.IdRef="Assign_11">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:String">[out_EPOMasterFile_LocalPath]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:String">[Path.Combine(str_TempFolderPath,in_Config("EPO_MasterFileName").tostring.Replace("&lt;YYYY&gt;",int_Year.ToString)+".xlsx")]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                      <ui:CopyFile ContinueOnError="{x:Null}" Destination="[out_EPOMasterFile_LocalPath]" DisplayName="Copy File - EPO Compiled" sap:VirtualizedContainerService.HintSize="384,162" sap2010:WorkflowViewState.IdRef="CopyFile_5" Overwrite="False" Path="[Path.Combine(out_MasterFilesPath,in_Config(&quot;EPO_MasterFileName&quot;).tostring.Replace(&quot;&lt;YYYY&gt;&quot;,int_Year.ToString)+&quot;.xlsx&quot;)]" />
+                    </Sequence>
+                  </If.Then>
+                </If>
+              </Sequence>
+            </If.Else>
+          </If>
+        </If.Then>
+        <If.Else>
+          <Throw DisplayName="Throw - no box folder for compiled files" Exception="[new Exception(&quot;No box folder available for compiled files&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_2" />
+        </If.Else>
+      </If>
+    </Sequence>
+  </Sequence>
+</Activity>
